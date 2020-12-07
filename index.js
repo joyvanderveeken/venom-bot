@@ -14,22 +14,22 @@ const token = process.env.SLACK_AUTH_TOKEN;
 const web = new WebClient(token);
 
 const venomMembers = [
-  // 'Adam',
-  // 'Alex',
-  // 'Binu',
+  'Adam',
+  'Alex',
+  'Binu',
   'Erick',
   'Harinder',
   'Joy',
-  // 'Lewis',
-  // 'Luke',
-  // 'Manjari',
-  // 'Mark',
-  // 'Mieszko',
-  // 'Ola',
-  // 'Prabhat',
-  // 'Priyanka',
-  // 'Richard',
-  // 'Tomasz'
+  'Lewis',
+  'Luke',
+  'Manjari',
+  'Mark',
+  'Mieszko',
+  'Ola',
+  'Prabhat',
+  'Priyanka',
+  'Richard',
+  'Tomasz'
 ]
 
 let names = []
