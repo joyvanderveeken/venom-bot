@@ -1,0 +1,30 @@
+{
+  "name": "venom-bot",
+  "version": "1.0.0",
+  "description": "Team Venom Slack bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "venom-bot"
+  },
+  "keywords": [
+    "slack",
+    "chat",
+    "bot",
+    "venom"
+  ],
+  "author": "Joy",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/web-api": "^5.11.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^3.23.3",
+    "ngrok": "^3.3.0",
+    "node-cron": "2.0.3"
+  }
+}
