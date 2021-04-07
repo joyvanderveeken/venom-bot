@@ -1,0 +1,16 @@
+1. plan
+
+read pipeline state (for error)
+interogate pipleline for commit
+interogate github for commit and user (or use local git log)
+  This maybe several people
+push to slack
+
+
+Notes:
+
+Going forward:
+
+Potentially use cadebase rather than or with pipeline state to detect when multiple commits are in the pipeline
+
+Slack messages will be to to the indivdual concerned (as DM)
