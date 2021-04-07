@@ -1,0 +1,128 @@
+Team Venom Slack bot:
+  ☐ start thinking about logical implementation: what should it do, when should it do it?
+  ☐ investigate to set up the app, ask Jackie for help because she's made one before
+  ☐ install to private slack to test run it
+
+Functions:
+
+  Roulette:
+    // Create a sort of roulette which chooses members for standup / ceremony day
+
+      ☐ Need a randomizer
+        possibly with math.random against am array of members (indexes?)?
+
+      ☐ Need to remember who was on standup previously
+        --> push into new array
+        --> verify if new name is in new array
+        --> yes? rerun. no? push into array
+
+      ☐ Need to reset new array somehow, match with member Array
+
+      ☐ Figure out how to post messages to Slack
+        --> found this, it uses web.chat, but can also use app.post (slashcommands!)
+        --> need correct channel
+        --> found this after adding a slash command, get this object in response: 
+              {
+                token: 'JVxr7oitf3iVDrT7902jwYmt',
+                team_id: 'TTCLNH5T6',
+                team_domain: 'penthouse-inc',
+                channel_id: 'C01G3RJJL3Y',
+                channel_name: 'venomtestingsuite',
+                user_id: 'UT2V73HJ5',
+                user_name: 'jihveeken',
+                command: '/venomroulette',
+                text: '',
+                api_app_id: 'A01FXJF9AKA',
+                is_enterprise_install: 'false',
+                response_url: 'https://hooks.slack.com/commands/TTCLNH5T6/1690772467331/r3hII8k0nR0yV6VWvHM8Z4gX',
+                trigger_id: '1703195556609.930702583924.87ddee7f008274567eb4eb0e3d7f97c2'
+              }
+        --> channel_id for channel
+            name not immutable, id (probably) is
+        --> use user_id for members array instead of names?
+            user name can be changed, id seems to be immutable after testing several different weeks
+            can probably tag them in the message using id 
+
+      ☐ Slack works, woo
+
+      ☐ "What if someone's not available that day?" is a very valid point
+        --> convert slash command to trigger the roulette on command
+
+      ☐ Want this to run automatically, look at cron some other day
+
+      ☐ Randomizer in place, need to add a loop to check whether someone's name is in the new array
+        --> old function didn't do enough
+        --> while loop in randomizer works perfectly
+
+      ☐ Slash command to trigger doesn't work perfectly
+        --> basically, you add someone to the array but can't take them out
+        --> they get lucky enough to not get chosen for ceremonies the rest of the rotation
+        --> rotation is 13 days, ~3 working weeks
+        need to rework this into something more solid
+
+      ☐ Fun! instead of a boring "You're on standup ${name}.", I could use pop culture references
+        --> same logic as randomizer for members
+            use math.floor and math.random against the length of the array
+
+      ☐ Added the roulette to a cronjob
+        --> testing it with 1 second intervals made my mac explode with notications
+        --> need to ask what people prefer, some people might want to know a day ahead?
+            roulette can run every morning before standup, too
+            --> very viable because there aren't many messages on slack before standup
+
+
+
+      ☐ YOU'RE AN IDIOT!!
+        don't upload a Slack auth token to github again
+
+
+
+      ☐ Look into hosting the bot somewhere, needs to run all the time
+        otherwise it can't respond to slash commands or listen to a channel for hotwords
+        --> add hotwords later, respond with link when someone mentions Confluence for example
+            this can be more helpful than annoying, write down list of scenarios
+        ☐ tried netlify, didn't quite work
+        ☐ tried in a lambda and tried using EC2 / elastic beans
+          --> most reference material doesn't apply to what I have
+          --> there's too options to choose from even if you go through wizard
+              need to sit down and investigate the options, don't make sense right now
+              --> ask someone like Prabhat, Harinder or Luke, they seem to know a lot of AWS
+          
+          Ask: if I stick with AWS, could it be hosted using our team's domain?
+          
+      ☐ Might be an idea to convert to Typescript, will make a start
+        --> had to remember that I run index with node, ts-node might be an option?
+
+      ☐ Someone mentioned the Friday video again, I can add that with a cronjob
+        there's different videos, like pt 2 from Mufasa, Gordon Ramsey, Lando Norris (F1 driver)
+        create randomizer similar to names and messages
+
+      ☐ Work on getting people out and back into rotation
+        want to add slash command similar to '/venom joy 3' = /venom ${name} ${days}
+        --> thought about timeout, but that makes no sense
+
+        Splice(??) to remove a member from the venomMembers array
+        Push people back after x amount of time
+
+        Can count how many times the cronRoulette has run!!
+          if days >= iterations then push back into venomMembers
+
+        --> This would work best as it compares the amount of days to iterations
+            iterations don't increase over the weekend (obviously)
+
+        Need to figure out the logic properly, I don't think I can increase
+
+            let iteration = 4
+
+            giveTimeout = (name, days) => {
+              iteration = 0
+
+              if (4 > current) {
+                arr.push(name)
+              }
+
+            }
+
+      ☐ Definitely docker/EC2
+      
+      ☐ access the calendar perhaps to filter people out
